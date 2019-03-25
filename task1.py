@@ -24,6 +24,6 @@ def karatsuba_mult(a, b):
     c0 = karatsuba_mult(a0, b0)
     c1 = karatsuba_mult(a1+a0, b1+b0) - (c2 + c0)
 
-    return c2 * 10**(2*k) + c1 * 10**k + c0;
+    return c2 * 10**(2*k) + c1 * 10**k + c0
 
 main()
