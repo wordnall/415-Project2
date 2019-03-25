@@ -30,14 +30,14 @@ def deque_add(a, b, neg_b):
             sign = ""
 
         if len(str_carry) > comp_len:
-            ret_list.prepend(int(str_carry[1]))
+            ret_deque.prepend(int(str_carry[1]))
             carry = int(sign + str_carry[0])
         else:
-            ret_list.prepend(abs(carry))
+            ret_deque.prepend(abs(carry))
             carry = 0
 
     if int(carry) > 0:
-        ret_list.prepend(int(carry))
+        ret_deque.prepend(int(carry))
 
     return ret_list
 
