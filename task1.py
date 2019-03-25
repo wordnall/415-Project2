@@ -10,15 +10,14 @@ def main():
     print("The product is: ", karatsuba_mult(a, b))
 
 
-def list_add(a, b, neg_b):
-    ret_list = {}
+def deque_add(a, b, neg_b):
+    ret_deque = deque()
 
     carry = 0
     for i in range(len(a - 1)):
+        curr_b = int(b[i])
         if neg_b:
-            curr_b = int(-1 * b[i])
-        else:
-            curr_b = int(b[i])
+            curr_b *= -1
 
         carry = string(int(a[i]) + curr_b + carry)
         str_carry = string(carry)
@@ -32,10 +31,10 @@ def list_add(a, b, neg_b):
 
         if len(str_carry) > comp_len:
             ret_list.prepend(int(str_carry[1]))
-            carry = sign + str_carry[0]
+            carry = int(sign + str_carry[0])
         else:
-            ret_list.append(abs(carry))
-            carry = "0"
+            ret_list.prepend(abs(carry))
+            carry = 0
 
     if int(carry) > 0:
         ret_list.prepend(int(carry))
