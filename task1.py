@@ -73,20 +73,21 @@ def deque_add(a, b):
     return ret_deque
 
 def deque_sub(a, b):
+    ret_deque = deque()
     for i in range(len(a) - 1, -1, -1):
         curr_a = a[i]
         curr_b = b[i]
-        if sub:
-            curr_b *= -1
-            if abs(curr_b) > curr_a:
-                curr_a += 10
+        if abs(curr_b) > curr_a:
+            curr_a += 10
 
-                j = i
-                while j >= 0 and a[j] == 0:
-                    a[j] = 9
-                    j -= 1
+            j = i
+            while j >= 0 and a[j] == 0:
+                a[j] = 9
+                j -= 1
 
-                a[j] -= 1
+            a[j] -= 1
+        ret_deque.appendleft(curr_a - curr_b)
+
 
 def karatsuba_mult(a, b):
     ret_neg = False
