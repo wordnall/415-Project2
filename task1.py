@@ -11,32 +11,40 @@ def main():
     print("The product is: ", karatsuba_mult(a, b))
 
 
-def deque_add(a, b, neg_b):
+def deque_add(a_in, b_in, neg_b):
     if neg_b:
         k = 0
-        while k < len(a) and a[k] == b[k]:
+        while k < len(a_in) and a_in[k] == b_in[k]:
             k += 1
-        bLess = b[k] < a[k]
+        bLess = b_in[k] < a_in[k]
+
     ret_deque = deque()
+    if bLess:
+        a = a_in
+        b = b_in
+        prepend_neg = False
+        # do normal subtraction algorithm
+    else:
+        # do subtraction algorithm with b and a swapped and append negative sign to the returned value
+        a = b_in
+        b = a_in
+        prepend_neg = True
 
     carry = 0
     for i in range(len(a) - 1, -1, -1):
-        cur_a = int(a[i])
+        curr_a = int(a[i])
         curr_b = int(b[i])
         if neg_b:
             curr_b *= -1
-            if abs(cur_b) > a[i]:
+            if abs(curr_b) > curr_a:
                 curr_a += 10
 
                 j = i
-                while j > 0 and a[j] == 0:
-                    a[j] = 9
+                while j >= 0 and a[j] == '0':
+                    a[j] = '9'
                     j -= 1
-                if j != 0 or a[0] >= b[0]:
-                    a[0] -= 1
-                    curr_
-                else:
-                    ret_deque[0] = curr_b - a[0]
+
+                a[j] -= 1
 
         carry = int(a[i]) + curr_b + carry
         str_carry = str(carry)
@@ -57,11 +65,10 @@ def deque_add(a, b, neg_b):
 
     if int(carry) > 0:
         ret_deque.appendleft(int(carry))
-    if neg_b:
+    if prepend_neg:
         ret_deque.appendleft('-')
 
     return ret_deque
-
 
 def karatsuba_mult(a, b):
 
