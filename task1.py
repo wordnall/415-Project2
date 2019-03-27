@@ -8,10 +8,16 @@ def main():
     a = deque(input("Enter the value for the first integer: "))
     b = deque(input("Enter the value for the second integer: "))
 
+    for i in range(len(a)):
+        a[i] = int(a[i])
+    for i in range(len(b)):
+        b[i] = int(b[i])
+
     print("The product is: ", karatsuba_mult(a, b))
 
 
 def deque_add(a_in, b_in, neg_b):
+    bLess = False
     if neg_b:
         k = 0
         while k < len(a_in) and a_in[k] == b_in[k]:
@@ -32,21 +38,21 @@ def deque_add(a_in, b_in, neg_b):
 
     carry = 0
     for i in range(len(a) - 1, -1, -1):
-        curr_a = int(a[i])
-        curr_b = int(b[i])
+        curr_a = a[i]
+        curr_b = b[i]
         if neg_b:
             curr_b *= -1
             if abs(curr_b) > curr_a:
                 curr_a += 10
 
                 j = i
-                while j >= 0 and a[j] == '0':
-                    a[j] = '9'
+                while j >= 0 and a[j] == 0:
+                    a[j] = 9
                     j -= 1
 
                 a[j] -= 1
 
-        carry = int(a[i]) + curr_b + carry
+        carry = curr_a + curr_b + carry
         str_carry = str(carry)
         if carry < 0:
             comp_len = 2
@@ -63,21 +69,33 @@ def deque_add(a_in, b_in, neg_b):
             ret_deque.appendleft(abs(carry))
             carry = 0
 
-    if int(carry) > 0:
-        ret_deque.appendleft(int(carry))
+    if carry > 0:
+        ret_deque.appendleft(carry)
     if prepend_neg:
         ret_deque.appendleft('-')
 
     return ret_deque
 
 def karatsuba_mult(a, b):
+    ret_neg = False
+    if a[0] == '-':
+        ret_neg = not ret_neg
+        del a[0]
+    if b[0] == '-':
+        ret_neg = not ret_neg
+        del b[0]
 
     while len(a) > len(b):
         b.appendleft(0)
-    while len(deque_b) > len(deque_a):
+    while len(b) > len(a):
         a.appendleft(0)
 
     if len(a) == 1 and len(b) == 1:
+        ret_deque = str(int(a) * int(b))
+        for i in range(len(ret_deque)):
+            ret_deque[i] = int(ret_deque[i])
+        if ret_neg:
+            ret_deque.appendleft('-')
         return deque(str(int(a) * int(b)))
 
 
