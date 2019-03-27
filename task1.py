@@ -56,28 +56,19 @@ def deque_add(a, b):
     ret_deque = deque()
 
     carry = 0
-
-        carry = curr_a + curr_b + carry
+    for i in range(len(a) - 1, -1, -1):
+        carry += a[i] + b[i]
         str_carry = str(carry)
-        if carry < 0:
-            comp_len = 2
-            str_carry = str_carry[1:]
-            sign = "-"
-        else:
-            comp_len = 1
-            sign = ""
 
-        if len(str_carry) > comp_len:
+        if len(str_carry) > 1:
             ret_deque.appendleft(int(str_carry[1]))
-            carry = int(sign + str_carry[0])
+            carry = int(str_carry[0])
         else:
-            ret_deque.appendleft(abs(carry))
+            ret_deque.appendleft(carry)
             carry = 0
 
     if carry > 0:
         ret_deque.appendleft(carry)
-    if prepend_neg:
-        ret_deque.appendleft('-')
 
     return ret_deque
 
