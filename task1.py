@@ -18,11 +18,17 @@ def main():
 
 def deque_add(a_in, b_in, neg_b):
     bLess = False
+
+
     if neg_b:
         k = 0
         while k < len(a_in) and a_in[k] == b_in[k]:
             k += 1
         bLess = b_in[k] < a_in[k]
+        if not bLess:
+            swap = b
+            b = a
+            a = swap
 
     ret_deque = deque()
     if bLess:
@@ -35,6 +41,27 @@ def deque_add(a_in, b_in, neg_b):
         a = b_in
         b = a_in
         prepend_neg = True
+
+        ##### find deque op
+    if bLess:
+        if (a_neg and not b_neg and not sub) or (a_neg and b_neg and sub):
+            -1 * deque_sub(a, b)
+        elif (not a_neg and not b_neg and not sub) or (not a_neg and b_neg and sub):
+            deque_add(a, b)
+        elif (not a_neg and b_neg and not sub) or (not neg_a and not b_neg and sub):
+            deque_sub(a, b)
+        elif (a_neg and b_neg and not sub) or (a_neg and not b_neg and sub):
+            -1 * deque_sub(a, b)
+    elif not bLess: # b is greater than a
+        if (a_neg and b_neg and not sub) or (a_neg and b_neg):
+            -1 * deque_add(a, b)
+        elif (not a_neg and b_neg:
+            -1 * deque_sub(b, a)
+        elif not a_neg and b_neg:
+            deque_add(a, b)
+        if a_neg and not b_neg:
+            deque_sub(b, a)
+
 
     carry = 0
     for i in range(len(a) - 1, -1, -1):
@@ -76,6 +103,7 @@ def deque_add(a_in, b_in, neg_b):
 
     return ret_deque
 
+
 def karatsuba_mult(a, b):
     ret_neg = False
     if a[0] == '-':
@@ -91,31 +119,31 @@ def karatsuba_mult(a, b):
         a.appendleft(0)
 
     if len(a) == 1 and len(b) == 1:
-        ret_deque = str(int(a) * int(b))
+        ret_deque = deque(str(a[0] * b[0]))
         for i in range(len(ret_deque)):
             ret_deque[i] = int(ret_deque[i])
         if ret_neg:
             ret_deque.appendleft('-')
-        return deque(str(int(a) * int(b)))
+        return ret_deque
 
 
     #A*B = A1*B1*10^2k+(C1)*10^k+A0*B0, A1 = K+1, A0 = k, K = floor(n/2)
-    k = floor(len_a/2)
+    k = floor(len(a)/2)
     if k % 2:
-        a1 = deque(islice(deque_a, 0, k))
-        b1 = deque(islice(deque_b, 0, k))
+        a1 = deque(islice(a, 0, k))
+        b1 = deque(islice(b, 0, k))
 
     else:
-        a1 = deque(islice(deque_a, 0, k+1))
-        b1 = deque(islice(deque_b, 0, k + 1))
+        a1 = deque(islice(a, 0, k+1))
+        b1 = deque(islice(b, 0, k + 1))
 
-    a0 = deque(islice(deque_a, k, len_a))
+    a0 = deque(islice(a, k, len(a)))
 
-    b0 = deque(islice(deque_a, k, len_b))
+    b0 = deque(islice(a, k, len(b)))
 
     c2 = karatsuba_mult(a1, b1)
     c0 = karatsuba_mult(a0, b0)
-    c1 = deque_add(karatsuba_mult(deque_add(a1, a0, false), deque_add(b1, b0, false)), (deque_add(c2, c0, false)), true)
+    c1 = deque_add(karatsuba_mult(deque_add(a1, a0, False), deque_add(b1, b0, False)), (deque_add(c2, c0, False)), True)
 
     return pow10(c2, 2*k) + pow10(c1, k) + c0
 
@@ -145,4 +173,4 @@ def dequeaddtest():
         addorsub = input("subtraction?")
 
 
-dequeaddtest()
+main()
