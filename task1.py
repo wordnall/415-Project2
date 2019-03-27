@@ -16,68 +16,46 @@ def main():
     print("The product is: ", karatsuba_mult(a, b))
 
 
-def deque_add(a_in, b_in, neg_b):
-    bLess = False
+def deque_arr(a, b, sub):
+    a_neg = False
+    if a[0] == '-':
+        del a[0]
+        a_neg = True
+    b_neg = False
+    if b[0] == '-':
+        del b[0]
+        b_neg = True
 
+    k = 0
+    while k < len(a) and a[k] == b[k]:
+        k += 1
+    bLess = b[k] < a[k]
 
-    if neg_b:
-        k = 0
-        while k < len(a_in) and a_in[k] == b_in[k]:
-            k += 1
-        bLess = b_in[k] < a_in[k]
-        if not bLess:
-            swap = b
-            b = a
-            a = swap
+    if not bLess:
+        #swap op and numbers
+        sub = not sub
+        swap = b
+        b = a
+        a = swap
+        swap = a_neg
+        a_neg = b_neg
+        b_neg = swap
 
+    ##### find deque op
+    if (a_neg and not b_neg and not sub) or (a_neg and b_neg and sub):
+        -1 * deque_sub(a, b)
+    elif (not a_neg and not b_neg and not sub) or (not a_neg and b_neg and sub):
+        deque_add(a, b)
+    elif (not a_neg and b_neg and not sub) or (not neg_a and not b_neg and sub):
+        deque_sub(a, b)
+    elif (a_neg and b_neg and not sub) or (a_neg and not b_neg and sub):
+        -1 * deque_sub(a, b)
+
+def deque_add(a, b):
+    #expects two deques of ints, both positive, with a >= b
     ret_deque = deque()
-    if bLess:
-        a = a_in
-        b = b_in
-        prepend_neg = False
-        # do normal subtraction algorithm
-    else:
-        # do subtraction algorithm with b and a swapped and append negative sign to the returned value
-        a = b_in
-        b = a_in
-        prepend_neg = True
-
-        ##### find deque op
-    if bLess:
-        if (a_neg and not b_neg and not sub) or (a_neg and b_neg and sub):
-            -1 * deque_sub(a, b)
-        elif (not a_neg and not b_neg and not sub) or (not a_neg and b_neg and sub):
-            deque_add(a, b)
-        elif (not a_neg and b_neg and not sub) or (not neg_a and not b_neg and sub):
-            deque_sub(a, b)
-        elif (a_neg and b_neg and not sub) or (a_neg and not b_neg and sub):
-            -1 * deque_sub(a, b)
-    elif not bLess: # b is greater than a
-        if (a_neg and b_neg and not sub) or (a_neg and b_neg):
-            -1 * deque_add(a, b)
-        elif (not a_neg and b_neg:
-            -1 * deque_sub(b, a)
-        elif not a_neg and b_neg:
-            deque_add(a, b)
-        if a_neg and not b_neg:
-            deque_sub(b, a)
-
 
     carry = 0
-    for i in range(len(a) - 1, -1, -1):
-        curr_a = a[i]
-        curr_b = b[i]
-        if neg_b:
-            curr_b *= -1
-            if abs(curr_b) > curr_a:
-                curr_a += 10
-
-                j = i
-                while j >= 0 and a[j] == 0:
-                    a[j] = 9
-                    j -= 1
-
-                a[j] -= 1
 
         carry = curr_a + curr_b + carry
         str_carry = str(carry)
@@ -103,6 +81,21 @@ def deque_add(a_in, b_in, neg_b):
 
     return ret_deque
 
+def deque_sub(a, b):
+    for i in range(len(a) - 1, -1, -1):
+        curr_a = a[i]
+        curr_b = b[i]
+        if sub:
+            curr_b *= -1
+            if abs(curr_b) > curr_a:
+                curr_a += 10
+
+                j = i
+                while j >= 0 and a[j] == 0:
+                    a[j] = 9
+                    j -= 1
+
+                a[j] -= 1
 
 def karatsuba_mult(a, b):
     ret_neg = False
