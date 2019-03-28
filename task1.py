@@ -60,8 +60,7 @@ def deque_arr(a, b, sub):
     ##now we know abs(a) >= abs(b)
     ##### find deque op
     if (a_neg and not b_neg and not sub) or (a_neg and b_neg and sub):
-        ret_deque = deque()
-        deque_sub(a, b, ret_deque)
+        ret_deque = deque_sub(a, b)
         ret_deque.appendleft('-')
         return ret_deque
     elif (not a_neg and not b_neg and not sub) or (not a_neg and b_neg and sub):
@@ -94,7 +93,7 @@ def deque_add(a, b):
     return ret_deque
 
 
-def deque_sub(a, b, ret_deque):
+def deque_sub(a, b):
     ret_deque = deque()
 
     for i in range(len(a) - 1, -1, -1):
