@@ -1,3 +1,4 @@
+
 from collections import deque
 from math import floor
 from itertools import islice
@@ -23,7 +24,6 @@ def deque_arr(a, b, sub):
     if a[0] == '-':
         del a[0]
         a_neg = True
-
     b_neg = False
     if b[0] == '-':
         del b[0]
@@ -42,21 +42,16 @@ def deque_arr(a, b, sub):
     if (not bAbsLess) and sub:
         #swap numbers
         sub = not sub
-        #a_neg = not a_neg
-        b_neg = not b_neg
         swap = b
         b = a
         a = swap
         swap = a_neg
         a_neg = b_neg
         b_neg = swap
-
     ##now we know abs(a) >= abs(b)
     ##### find deque op
     if (a_neg and not b_neg and not sub) or (a_neg and b_neg and sub):
-        ret_deque = deque()
-        deque_sub(a, b, ret_deque)
-        ret_deque.appendleft('-')
+        ret_deque = (deque_sub(a, b).appendleft('-'))
         return ret_deque
     elif (not a_neg and not b_neg and not sub) or (not a_neg and b_neg and sub):
         return deque_add(a, b)
@@ -65,6 +60,7 @@ def deque_arr(a, b, sub):
     elif (a_neg and b_neg and not sub) or (a_neg and not b_neg and sub):
         ret_deque = (deque_add(a, b).appendleft('-'))
         return ret_deque
+
 
 def deque_add(a, b):
     #expects two deques of ints, both positive, with a >= b
@@ -88,7 +84,7 @@ def deque_add(a, b):
     return ret_deque
 
 
-def deque_sub(a, b, ret_deque):
+def deque_sub(a, b):
     ret_deque = deque()
 
     for i in range(len(a) - 1, -1, -1):
@@ -104,7 +100,7 @@ def deque_sub(a, b, ret_deque):
 
             a[j] -= 1
         ret_deque.appendleft(curr_a - curr_b)
-    return #ret_deque.copy()
+    return ret_deque
 
 
 def karatsuba_mult(a, b):
@@ -168,23 +164,14 @@ def powtest():
 
 
 def dequeaddtest():
-    a = deque(input("Enter value1 for deq add: "))
-    b = deque(input("Enter value2 for deq add: "))
+    a = input("Enter value1 for deq add: ")
+    b = input("Enter value2 for deq add: ")
     addorsub = input("subtraction?")
     while a or b != 'q':
-        while len(a) > len(b):
-            b.appendleft(0)
-        while len(b) > len(a):
-            a.appendleft(0)
-        for i in range(len(a)):
-            a[i] = int(a[i])
-            b[i] = int(b[i])
-
-        print(deque_arr(deque(a), deque(b), addorsub == 't'))
-        a = deque(input("Enter value1 for deq add: "))
-        b = deque(input("Enter value2 for deq add: "))
+        print(deque_add(deque(a), deque(b), addorsub == 't'))
+        a = input("Enter value1 for deq add: ")
+        b = input("Enter value2 for deq add: ")
         addorsub = input("subtraction?")
 
 
-#main()
-dequeaddtest()
+main()
