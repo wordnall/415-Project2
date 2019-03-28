@@ -174,4 +174,25 @@ def dequeaddtest():
         addorsub = input("subtraction?")
 
 
+def test():
+    print("Running Karatsubas large interger multiplication")
+    errorCount = 0
+    for k in range(1, 1000, 1):
+        a = deque(str(k))
+        for j in range(1, 1000, 1):
+            b = deque(str(j))
+
+            for i in range(len(a)):
+                a[i] = int(a[i])
+            for i in range(len(b)):
+                b[i] = int(b[i])
+            product = karatsuba_mult(a, b)
+            while len(product) > 0 and product[0] == 0:
+                product.popleft()
+            if "".join(map(str, product)) != str(j*k):
+                errorCount += 1
+                print("Erroneous inputs found:\n", "a: ", a, "\n", "b: ", b, "\n", )
+
+    print("Total erroneous inputs: ", errorCount)
+
 main()
