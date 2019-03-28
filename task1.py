@@ -90,7 +90,7 @@ def deque_sub(a, b):
         if abs(curr_b) > curr_a:
             curr_a += 10
 
-            j = i
+            j = i - 1
             while j >= 0 and a[j] == 0:
                 a[j] = 9
                 j -= 1
