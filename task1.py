@@ -12,8 +12,10 @@ def main():
         a[i] = int(a[i])
     for i in range(len(b)):
         b[i] = int(b[i])
-
-    print("The product is: ", "".join(map(str, karatsuba_mult(a, b))))
+    product = karatsuba_mult(a, b)
+    while len(product) > 0 and product[0] == 0:
+        product.popleft()
+    print("The product is: ", "".join(map(str, product)))
 
 
 def deque_arr(a, b, sub):
@@ -95,7 +97,7 @@ def deque_sub(a, b, ret_deque):
         if abs(curr_b) > curr_a:
             curr_a += 10
 
-            j = i
+            j = i - 1
             while j >= 0 and a[j] == 0:
                 a[j] = 9
                 j -= 1
@@ -146,7 +148,9 @@ def karatsuba_mult(a, b):
     c0 = karatsuba_mult(a0, b0)
     c1 = deque_arr(karatsuba_mult(deque_arr(a1, a0, False), deque_arr(b1, b0, False)), deque_arr(c2, c0, False), True)
 
-    return pow10(c2, 2*k) + pow10(c1, k) + c0
+    retval = deque_arr(deque_arr(pow10(c2, 2*k), pow10(c1, k), False), c0, False)
+
+    return retval
 
 
 def pow10(num, power):
