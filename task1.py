@@ -165,7 +165,7 @@ def karatsuba_mult(a, b):
 
     # base case: a and b are both single-digit
     if len(a) == 1 and len(b) == 1:
-        # cast result of multiplication to string so digits are separated, convert string to deque of single-char strings
+        # cast result of multiplication to string to separate digits, convert string to deque of single-char strings
         ret_deque = deque(str(a[0] * b[0]))
         # convert deque of strings to deque of ints
         for i in range(len(ret_deque)):
