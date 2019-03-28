@@ -29,10 +29,10 @@ def deque_arr(a, b, sub):
     k = 0
     while k < len(a) and a[k] == b[k]:
         k += 1
-    bLess = b[k] < a[k]
+    bAbsLess = b[k] < a[k]
 
-    if not bLess:
-        #swap op and numbers
+    if (not bAbsLess) and sub:
+        #swap numbers
         sub = not sub
         swap = b
         b = a
@@ -40,16 +40,18 @@ def deque_arr(a, b, sub):
         swap = a_neg
         a_neg = b_neg
         b_neg = swap
-
+    ##now we know abs(a) >= abs(b)
     ##### find deque op
     if (a_neg and not b_neg and not sub) or (a_neg and b_neg and sub):
-        -1 * deque_sub(a, b)
+        ret_deque = (deque_sub(a, b).appendleft('-'))
+        return ret_deque
     elif (not a_neg and not b_neg and not sub) or (not a_neg and b_neg and sub):
-        deque_add(a, b)
+        return deque_add(a, b)
     elif (not a_neg and b_neg and not sub) or (not neg_a and not b_neg and sub):
-        deque_sub(a, b)
+        return deque_sub(a, b)
     elif (a_neg and b_neg and not sub) or (a_neg and not b_neg and sub):
-        -1 * deque_sub(a, b)
+        ret_deque = (deque_add(a, b).appendleft('-'))
+        return ret_deque
 
 def deque_add(a, b):
     #expects two deques of ints, both positive, with a >= b
