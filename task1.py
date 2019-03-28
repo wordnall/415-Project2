@@ -42,18 +42,27 @@ def deque_arr(a, b, sub):
     k = 0
     while k < len(a) - 1 and a[k] == b[k]:
         k += 1
-    bAbsLess = b[k] < a[k]
+    aAbsGrtrEql = a[k] >= b[k]
 
-    if (not bAbsLess) and sub:
-        #swap numbers
+    # make b positive
+    if b_neg:
+        b_neg = not b_neg
         sub = not sub
+
+    # if subtracting large positive b, swap
+    if (not aAbsGrtrEql) and sub:
+        # form is (+/-a) - (+B)
+        # change this to:
+        #    (-B) + (+/-a)
+        sub = not sub
+        b_neg = not b_neg
         swap = b
         b = a
         a = swap
         swap = a_neg
         a_neg = b_neg
         b_neg = swap
-    ##now we know abs(a) >= abs(b)
+    # now we know abs(a) >= abs(b)
     ##### find deque op
     if (a_neg and not b_neg and not sub) or (a_neg and b_neg and sub):
         ret_deque = (deque_sub(a, b).appendleft('-'))
