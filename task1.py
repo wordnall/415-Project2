@@ -52,7 +52,7 @@ def deque_arr(a, b, sub):
         return ret_deque
     elif (not a_neg and not b_neg and not sub) or (not a_neg and b_neg and sub):
         return deque_add(a, b)
-    elif (not a_neg and b_neg and not sub) or (not neg_a and not b_neg and sub):
+    elif (not a_neg and b_neg and not sub) or (not a_neg and not b_neg and sub):
         return deque_sub(a, b)
     elif (a_neg and b_neg and not sub) or (a_neg and not b_neg and sub):
         ret_deque = (deque_add(a, b).appendleft('-'))
@@ -141,7 +141,12 @@ def karatsuba_mult(a, b):
     c0 = karatsuba_mult(a0, b0)
     c1 = deque_arr(karatsuba_mult(deque_arr(a1, a0, False), deque_arr(b1, b0, False)), deque_arr(c2, c0, False), True)
 
-    return pow10(c2, 2*k) + pow10(c1, k) + c0
+    retval = deque_arr(deque_arr(pow10(c2, 2*k), pow10(c1, k), False), c0, False)
+
+    # while len(retval) > 0 and retval[0] == 0:
+     #   retval.popleft()
+    # return pow10(c2, 2*k) + pow10(c1, k) + c0
+    return retval
 
 
 def pow10(num, power):
