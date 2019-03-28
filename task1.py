@@ -37,8 +37,16 @@ def deque_arr(a, b, sub):
         k += 1
     bAbsLess = b[k] < a[k]
 
+    # make b positive
+    if b_neg:
+        b_neg = not b_neg
+        sub = not sub
+
+    #if subtracting large, positive b
     if (not bAbsLess) and sub:
-        #swap numbers
+        # form is (+/-a) - (+B)
+        # change this to:
+        #    (-B) + (+/-a)
         sub = not sub
         #a_neg = not a_neg
         b_neg = not b_neg
@@ -102,7 +110,7 @@ def deque_sub(a, b, ret_deque):
 
             a[j] -= 1
         ret_deque.appendleft(curr_a - curr_b)
-    return #ret_deque.copy()
+    return ret_deque
 
 
 def karatsuba_mult(a, b):
@@ -168,13 +176,29 @@ def dequeaddtest():
     b = deque(input("Enter value2 for deq add: "))
     addorsub = input("subtraction?")
     while a or b != 'q':
+        a_neg = False
+        if a[0] == '-':
+            del a[0]
+            a_neg = True
+
+        b_neg = False
+        if b[0] == '-':
+            del b[0]
+            b_neg = True
+
+        for i in range(len(a)):
+            a[i] = int(a[i])
+            b[i] = int(b[i])
+
         while len(a) > len(b):
             b.appendleft(0)
         while len(b) > len(a):
             a.appendleft(0)
-        for i in range(len(a)):
-            a[i] = int(a[i])
-            b[i] = int(b[i])
+
+        if a_neg:
+            a.appendleft('-')
+        if b_neg:
+            b.appendleft('-')
 
         print(deque_arr(deque(a), deque(b), addorsub == 't'))
         a = deque(input("Enter value1 for deq add: "))
