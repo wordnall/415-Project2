@@ -13,7 +13,7 @@ def main():
     for i in range(len(b)):
         b[i] = int(b[i])
 
-    print("The product is: ", karatsuba_mult(a, b))
+    print("The product is: ", "".join(map(str, karatsuba_mult(a, b))))
 
 
 def deque_arr(a, b, sub):
@@ -26,8 +26,13 @@ def deque_arr(a, b, sub):
         del b[0]
         b_neg = True
 
+    while len(a) > len(b):
+        b.appendleft(0)
+    while len(b) > len(a):
+        a.appendleft(0)
+
     k = 0
-    while k < len(a) and a[k] == b[k]:
+    while k < len(a) - 1 and a[k] == b[k]:
         k += 1
     bAbsLess = b[k] < a[k]
 
@@ -53,6 +58,7 @@ def deque_arr(a, b, sub):
         ret_deque = (deque_add(a, b).appendleft('-'))
         return ret_deque
 
+
 def deque_add(a, b):
     #expects two deques of ints, both positive, with a >= b
     ret_deque = deque()
@@ -74,8 +80,10 @@ def deque_add(a, b):
 
     return ret_deque
 
+
 def deque_sub(a, b):
     ret_deque = deque()
+
     for i in range(len(a) - 1, -1, -1):
         curr_a = a[i]
         curr_b = b[i]
@@ -89,6 +97,7 @@ def deque_sub(a, b):
 
             a[j] -= 1
         ret_deque.appendleft(curr_a - curr_b)
+    return ret_deque
 
 
 def karatsuba_mult(a, b):
@@ -116,21 +125,21 @@ def karatsuba_mult(a, b):
 
     #A*B = A1*B1*10^2k+(C1)*10^k+A0*B0, A1 = K+1, A0 = k, K = floor(n/2)
     k = floor(len(a)/2)
-    if k % 2:
+    if (len(a) % 2) == 0:
         a1 = deque(islice(a, 0, k))
         b1 = deque(islice(b, 0, k))
+        a0 = deque(islice(a, k, len(a)))
+        b0 = deque(islice(b, k, len(b)))
 
     else:
-        a1 = deque(islice(a, 0, k+1))
+        a1 = deque(islice(a, 0, k + 1))
         b1 = deque(islice(b, 0, k + 1))
-
-    a0 = deque(islice(a, k, len(a)))
-
-    b0 = deque(islice(a, k, len(b)))
+        a0 = deque(islice(a, k + 1, len(a)))
+        b0 = deque(islice(b, k + 1, len(b)))
 
     c2 = karatsuba_mult(a1, b1)
     c0 = karatsuba_mult(a0, b0)
-    c1 = deque_add(karatsuba_mult(deque_add(a1, a0, False), deque_add(b1, b0, False)), (deque_add(c2, c0, False)), True)
+    c1 = deque_arr(karatsuba_mult(deque_arr(a1, a0, False), deque_arr(b1, b0, False)), deque_arr(c2, c0, False), True)
 
     return pow10(c2, 2*k) + pow10(c1, k) + c0
 
@@ -138,7 +147,7 @@ def karatsuba_mult(a, b):
 def pow10(num, power):
     temp = num.copy()
     for x in range(power):
-        temp.append('0')
+        temp.append(0)
 
     return temp
 
