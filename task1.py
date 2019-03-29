@@ -266,6 +266,7 @@ def exp(a, b):
         return karatsuba_mult(karatsuba_mult(val, val), a)
 
 
+<<<<<<< HEAD
 def exp2(a, b):
     # a = deque(str(a))
     # for i in range(len(a)):
@@ -284,6 +285,7 @@ def exp2(a, b):
     return a
 
 def main2():
+def mainAL():
     a = deque(input("Enter the value for the first integer: "))
     b = int(input("Enter the value for the second integer: "))
 
@@ -312,6 +314,7 @@ def test2():
             while len(product) > 0 and product[0] == 0:
                 product.popleft()
             if "".join(map(str, product)) != str(j*k):
+
                 errorCount += 1
                 print("Erroneous inputs found:\n", "a: ", a, "\n", "b: ", b, "\n", )
 
