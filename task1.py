@@ -248,7 +248,7 @@ def test():
 
 # test()
 # main()
-main2()
+# main2()
 # begin part 2 code for exponentiation
 
 
@@ -263,6 +263,20 @@ def exp(a, b):
     else:
         val = exp(a, (b-1)/2)
         return karatsuba_mult(karatsuba_mult(val, val), a)
+
+
+def exp2(a, b):
+    extra = 1
+    while b > 1:
+        if b % 2 == 0:
+            a = karatsuba_mult(a, a)
+            b /= 2
+        else:
+            a = karatsuba_mult(a, a)
+            b = floor(b/2)
+            extra = karatsuba_mult(extra, a)
+    a = karatsuba_mult(a, extra)
+    return a
 
 
 def test2():
