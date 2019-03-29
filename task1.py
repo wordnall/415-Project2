@@ -24,6 +24,22 @@ def main():
         b = deque(input("Enter the value for the second integer: "))
 
 
+def main2():
+    print("Running exponentiator using karatsuba multiplication")
+    a = int(input("Enter the value for the first integer: "))
+    b = int(input("Enter the value for the second integer: "))
+
+    while a or b != 'q':
+        product = exp(a, b)
+        while len(product) > 0 and product[0] == 0:
+            product.popleft()
+        print("The product is: ", "".join(map(str, product)))
+
+        print("Running exponentiator using karatsuba multiplication")
+        a = int(input("Enter the value for the first integer: "))
+        b = int(input("Enter the value for the second integer: "))
+
+
 def deque_arr(a, b, sub):
     a_neg = False
     if a[0] == '-':
@@ -210,5 +226,26 @@ def test():
     print("Total erroneous inputs: ", errorCount)
 
 
+# def exp(a, b):
+#     temp = deque(str(a))
+#     a = temp
+#     for i in range(len(temp)):
+#         a[i] = int(a[i])
+#
+#     ret_val = 0
+#     while b > 1:
+#         # # temp = deque(str(a))
+#         # # for i in range(len(temp)):
+#         # #     a[i] = int(a[i])
+#         #
+#         # a = temp
+#         ret_val = exp(karatsuba_mult(a, a), floor(b / 2))
+#         if not (b % 2):
+#             ret_val = karatsuba_mult(ret_val, a)
+#
+#     return ret_val
+
+
 # test()
-main()
+# main()
+main2()
