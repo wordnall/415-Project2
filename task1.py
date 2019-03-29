@@ -9,14 +9,35 @@ def main():
     a = deque(input("Enter the value for the first integer: "))
     b = deque(input("Enter the value for the second integer: "))
 
-    for i in range(len(a)):
-        a[i] = int(a[i])
-    for i in range(len(b)):
-        b[i] = int(b[i])
-    product = karatsuba_mult(a, b)
-    while len(product) > 0 and product[0] == 0:
-        product.popleft()
-    print("The product is: ", "".join(map(str, product)))
+    while a or b != 'q':
+        for i in range(len(a)):
+            a[i] = int(a[i])
+        for i in range(len(b)):
+            b[i] = int(b[i])
+        product = karatsuba_mult(a, b)
+        while len(product) > 0 and product[0] == 0:
+            product.popleft()
+        print("The product is: ", "".join(map(str, product)))
+
+        print("Running Karatsubas large interger multiplication")
+        a = deque(input("Enter the value for the first integer: "))
+        b = deque(input("Enter the value for the second integer: "))
+
+
+def main2():
+    print("Running exponentiator using karatsuba multiplication")
+    a = int(input("Enter the value for the first integer: "))
+    b = int(input("Enter the value for the second integer: "))
+
+    while a or b != 'q':
+        product = exp(a, b)
+        while len(product) > 0 and product[0] == 0:
+            product.popleft()
+        print("The product is: ", "".join(map(str, product)))
+
+        print("Running exponentiator using karatsuba multiplication")
+        a = int(input("Enter the value for the first integer: "))
+        b = int(input("Enter the value for the second integer: "))
 
 
 def deque_arr(a, b, sub):
@@ -37,18 +58,27 @@ def deque_arr(a, b, sub):
     k = 0
     while k < len(a) - 1 and a[k] == b[k]:
         k += 1
-    bAbsLess = b[k] < a[k]
+    aAbsGrtrEql = a[k] >= b[k]
 
-    if (not bAbsLess) and sub:
-        #swap numbers
+    # make b positive
+    if b_neg:
+        b_neg = not b_neg
         sub = not sub
+
+    # if subtracting large positive b, swap
+    if (not aAbsGrtrEql) and sub:
+        # form is (+/-a) - (+B)
+        # change this to:
+        #    (-B) + (+/-a)
+        sub = not sub
+        b_neg = not b_neg
         swap = b
         b = a
         a = swap
         swap = a_neg
         a_neg = b_neg
         b_neg = swap
-    ##now we know abs(a) >= abs(b)
+    # now we know abs(a) >= abs(b)
     ##### find deque op
     if (a_neg and not b_neg and not sub) or (a_neg and b_neg and sub):
         ret_deque = (deque_sub(a, b).appendleft('-'))
@@ -195,6 +225,30 @@ def test():
 
     print("Total erroneous inputs: ", errorCount)
 
+
+# def exp(a, b):
+#     temp = deque(str(a))
+#     a = temp
+#     for i in range(len(temp)):
+#         a[i] = int(a[i])
+#
+#     ret_val = 0
+#     while b > 1:
+#         # # temp = deque(str(a))
+#         # # for i in range(len(temp)):
+#         # #     a[i] = int(a[i])
+#         #
+#         # a = temp
+#         ret_val = exp(karatsuba_mult(a, a), floor(b / 2))
+#         if not (b % 2):
+#             ret_val = karatsuba_mult(ret_val, a)
+#
+#     return ret_val
+
+
+# test()
+# main()
+main2()
 # begin part 2 code for exponentiation
 
 
@@ -216,10 +270,3 @@ def test2():
     b = input("Enter the value for the second integer: ")
 
     exp(a, b)
-
-
-
-
-
-
-
