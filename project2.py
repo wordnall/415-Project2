@@ -5,39 +5,47 @@ from itertools import islice
 
 
 def main():
+    task = 0
+
+    while task != 'q':
+
+        a = input("Enter the value for A: ")
+        b = input("Enter the value for B: ")
+
+        task = input("Which task would you like to run? (task1, task2, q):")
+
+        if task == 'task1':
+            task1(a, b)
+        elif task == 'task2':
+            task2(a, b)
+
+
+def task1(a, b):
     print("Running Karatsubas large interger multiplication")
-    a = deque(input("Enter the value for the first integer: "))
-    b = deque(input("Enter the value for the second integer: "))
+    a = deque(a)
+    b = deque(b)
 
-    while (a != 'q') and (b != 'q'):
-        for i in range(len(a)):
-            a[i] = int(a[i])
-        for i in range(len(b)):
-            b[i] = int(b[i])
-        product = karatsuba_mult(a, b)
-        while len(product) > 0 and product[0] == 0:
-            product.popleft()
-        print("The product is: ", "".join(map(str, product)))
-
-        print("Running Karatsubas large interger multiplication")
-        a = deque(input("Enter the value for the first integer: "))
-        b = deque(input("Enter the value for the second integer: "))
+    for i in range(len(a)):
+        a[i] = int(a[i])
+    for i in range(len(b)):
+        b[i] = int(b[i])
+    product = karatsuba_mult(a, b)
+    while len(product) > 1 and product[0] == 0:
+        product.popleft()
+    print("The product is: ", "".join(map(str, product)))
 
 
-def main2():
+def task2(a, b):
     print("Running exponentiator using karatsuba multiplication")
-    a = int(input("Enter the value for the first integer: "))
-    b = int(input("Enter the value for the second integer: "))
+    a = deque(a)
+    for i in range(len(a)):
+        a[i] = int(a[i])
+    b = int(b)
 
-    while a or b != 'q':
-        product = exp(a, b)
-        while len(product) > 0 and product[0] == 0:
-            product.popleft()
-        print("The product is: ", "".join(map(str, product)))
-
-        print("Running exponentiator using karatsuba multiplication")
-        a = int(input("Enter the value for the first integer: "))
-        b = int(input("Enter the value for the second integer: "))
+    result = exp(a, b)
+    while len(result) > 1 and result[0] == 0:
+        result.popleft()
+    print("The product is: ", "".join(map(str, result)))
 
 
 def deque_arr(a, b, sub):
@@ -141,12 +149,15 @@ def karatsuba_mult(a, b):
     if b[0] == '-':
         ret_neg = not ret_neg
         del b[0]
+    if ((a[0] == 0) and len(a) == 1) or ((b[0] == 0) and len(b) == 1):
+        ret_deque = deque()
+        ret_deque.append(0)
+        return ret_deque
 
     while len(a) > len(b):
         b.appendleft(0)
     while len(b) > len(a):
         a.appendleft(0)
-
     if len(a) == 1 and len(b) == 1:
         ret_deque = deque(str(a[0] * b[0]))
         for i in range(len(ret_deque)):
@@ -252,27 +263,15 @@ def test():
 
 
 def exp(a, b):
-
-    if b == 0:
-        ret_deque = deque()
-        ret_deque.append(1)
-        return ret_deque
-
-    if b % 2 == 0:
-        val = exp(a, b/2)
-        return karatsuba_mult(val, val)
-    else:
-        val = exp(a, (b-1)/2)
-        return karatsuba_mult(karatsuba_mult(val, val), a)
-
-
-<<<<<<< HEAD
-def exp2(a, b):
     # a = deque(str(a))
     # for i in range(len(a)):
     #     a[i] = int(a[i])
     extra = deque()
     extra.append(1)
+    if b == 0:
+        ret_deque = deque()
+        ret_deque.append(1)
+        return ret_deque
     while b > 1:
         if b % 2 == 0:
             a = karatsuba_mult(a, a)
@@ -283,19 +282,6 @@ def exp2(a, b):
             b = floor(b/2)
     a = karatsuba_mult(a, extra)
     return a
-
-def main2():
-def mainAL():
-    a = deque(input("Enter the value for the first integer: "))
-    b = int(input("Enter the value for the second integer: "))
-
-    for i in range(len(a)):
-        a[i] = int(a[i])
-
-    result = exp2(a, b)
-    while len(result) > 0 and result[0] == 0:
-        result.popleft()
-    print("The product is: ", "".join(map(str, result)))
 
 
 def test2():
@@ -320,7 +306,6 @@ def test2():
 
     print("Total erroneous inputs: ", errorCount)
 
-
 #test2()
-main2()
+main()
 # main()
