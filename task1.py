@@ -266,7 +266,7 @@ def exp(a, b):
         return karatsuba_mult(karatsuba_mult(val, val), a)
 
 
-def main2():
+def mainAL():
     a = deque(input("Enter the value for the first integer: "))
     b = int(input("Enter the value for the second integer: "))
 
@@ -283,18 +283,16 @@ def test2():
     print("Running Exponentiation")
     errorCount = 0
     for k in range(1, 1000, 1):
-        a = deque(str(k))
+        a = deque(k)
         for j in range(1, 1000, 1):
-            b = deque(str(j))
+            b = j
 
             for i in range(len(a)):
                 a[i] = int(a[i])
-            for i in range(len(b)):
-                b[i] = int(b[i])
-            product = karatsuba_mult(a, b)
-            while len(product) > 0 and product[0] == 0:
-                product.popleft()
-            if "".join(map(str, product)) != str(j*k):
+            result = exp(a, b)
+            while len(result) > 0 and result[0] == 0:
+                result.popleft()
+            if "".join(map(str, result)) != str(k**j):
                 errorCount += 1
                 print("Erroneous inputs found:\n", "a: ", a, "\n", "b: ", b, "\n", )
 
