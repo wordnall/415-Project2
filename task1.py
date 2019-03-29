@@ -195,4 +195,31 @@ def test():
 
     print("Total erroneous inputs: ", errorCount)
 
-main()
+# begin part 2 code for exponentiation
+
+
+def exp(a, b):
+
+    if b == 0:
+        return 1
+
+    if b % 2 == 0:
+        val = exp(a, b/2)
+        return karatsuba_mult(val, val)
+    else:
+        val = exp(a, (b-1)/2)
+        return karatsuba_mult(karatsuba_mult(val, val), a)
+
+
+def test2():
+    a = input("Enter the value for the first integer: ")
+    b = input("Enter the value for the second integer: ")
+
+    exp(a, b)
+
+
+
+
+
+
+
